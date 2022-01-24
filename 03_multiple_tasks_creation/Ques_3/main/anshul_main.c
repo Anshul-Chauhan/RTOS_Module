@@ -3,46 +3,33 @@
 #include <freertos/task.h>
 
 
-TaskHandle_t xHandleTask1, xHandleTask2, xHandleTask3, xHandleTask4;
+TaskHandle_t xHandleTask, xHandleTask1, xHandleTask2;
 
-void init_Task1(void *pvParameters)
+void init_task(void *pvParameters)
 {
-    xTaskCreate(Task2, "Task2", 1024, NULL, 8, &xHandleTask2);
-    printf("Task 2 has created inside the init task with highest priority i.e. 10."); 
-    xTaskCreate(Task3, "Task3", 1024, NULL, 4, &xHandleTask3);
-    printf("Task 3 has created inside the init task with highest priority i.e. 10."); 
-    xTaskCreate(Task4, "Task4", 1024, NULL, 6, &xHandleTask4); 
-    printf("Task 4 has created inside the init task with highest priority i.e. 10.");
+    printf("Initial task: Priority = 8\n");
+    xTaskCreate(Task1, "Task1", 1024, NULL, 5, &xHandleTask1);
+    xTaskCreate(Task2, "Task2", 1024, NULL, 7, &xHandleTask2); 
+    printf("Initial task is finishing after creating two tasks with same priorities.\n");
+}
+
+void Task1(void *pvParameters)
+{
+    while(1)
+    {
+        printf("Task1: Priority = 5\n");
+    }
 }
 
 void Task2(void *pvParameters)
 {
     while(1)
     {
-        printf("Task2: Priority = 8\n");
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
-    }
-}
-
-void Task3(void *pvParameters)
-{
-    while(1)
-    {
-        printf("Task3: Priority = 4\n");
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
-    }
-}
-
-void Task4(void *pvParameters)
-{
-    while(1)
-    {
-        printf("Task4: Priority = 6\n");
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
+        printf("Task2: Priority = 7\n");
     }
 }
 
 void app_main()
 {
-    xTaskCreate(init_Task1, "Task1", 1024, NULL, 10, &xHandleTask1);             
+    xTaskCreate(init_task, "Initial_Task", 1024, NULL, 8, &xHandleTask);                      
 }
