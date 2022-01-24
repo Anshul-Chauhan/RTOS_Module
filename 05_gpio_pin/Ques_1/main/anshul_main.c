@@ -32,5 +32,6 @@ void app_main()
 {
     xTaskCreate(SensorTask, "Sensor_Task", 1024, NULL, 8, NULL); 
     xTaskCreate(LedTask, "Led_Task", 1024, NULL, 8, NULL); 
+    
     printf("Main Task\n");                                          
 }
