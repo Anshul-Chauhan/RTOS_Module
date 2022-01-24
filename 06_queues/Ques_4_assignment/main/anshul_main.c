@@ -4,6 +4,7 @@
 #include <freertos/queue.h>
 
 QueueHandle_t sensor_queue;
+
 BaseType_t queue_send;
 
 void Temp_Sensor(void *pvParameters)
